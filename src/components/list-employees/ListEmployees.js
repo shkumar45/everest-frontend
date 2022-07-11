@@ -24,8 +24,8 @@ class ListEmployeeComponent extends Component {
 
   render() {
     return (
-      <div>
-        <h2 className={classes.textcenter}>Employee List</h2>
+      <div className={classes.ListEmployees}>
+        <div className={classes.ribbon}>Employee List</div>
         <div>
           <table>
             <thead>
@@ -42,7 +42,9 @@ class ListEmployeeComponent extends Component {
                   <td>{employee.firstName}</td>
                   <td>{employee.lastName}</td>
                   <td>{employee.email}</td>
-                  <td>&nbsp;</td>
+                  <td>
+                    <a href="">Edit</a>&nbsp;<a href="">Delete</a>
+                  </td>
                 </tr>
               ))}
             </tbody>
