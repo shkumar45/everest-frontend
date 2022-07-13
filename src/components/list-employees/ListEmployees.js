@@ -12,20 +12,25 @@ class ListEmployeeComponent extends Component {
     this.addEmployee = this.addEmployee.bind(this);
   }
 
+  addEmployee() {
+    this.props.history.push("/add-employee");
+  }
+
   componentDidMount() {
     EmployeeService.getEmployees().then((res) => {
       this.setState({ employees: res.data });
     });
   }
 
-  addEmployee() {
-    this.props.history.push("/add-employee");
-  }
-
   render() {
     return (
-      <div className={classes.ListEmployees}>
-        <div className={classes.ribbon}>Employee List</div>
+      <div className={classes.panel}>
+        <div className={classes.row}>
+          <div className={classes.heading}>Employee List</div>
+          <button className={classes.btn} onClick={this.addEmployee}>
+            Add an Employee
+          </button>
+        </div>
         <div>
           <table>
             <thead>

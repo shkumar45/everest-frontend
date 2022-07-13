@@ -11,7 +11,12 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/list-employees" />} />
-          <Route path="/list-employees" element={<ListEmployees />} />
+          <Route
+            path="/list-employees"
+            element={
+              <ListEmployees onClick={<Navigate to="/add-employee" />} />
+            }
+          />
           <Route path="/add-employee" element={<AddEmployee />} />
         </Routes>
       </BrowserRouter>
