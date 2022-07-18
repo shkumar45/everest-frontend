@@ -10,7 +10,7 @@ const Header = () => {
         <ul>
           <li>
             <NavLink
-              to="list-employees"
+              to="employees/list"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
@@ -20,7 +20,7 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to="add-employee"
+              to="employees/add"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }

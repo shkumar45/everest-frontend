@@ -1,25 +1,69 @@
 import { Route, Navigate, Routes, BrowserRouter } from "react-router-dom";
 import ListEmployees from "./components/list-employees/ListEmployees";
-import AddEmployee from "./components/add-employee/AddEmployee";
+import AddEmployee from "./components/add-employee/Employee";
 import Layout from "./components/layout/Layout";
 import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import axios from "axios";
+import ErrorModal from "./components/UI/ErrorModal";
+import { useState } from "react";
+import LoadingSpinner from "./components/UI/LoadingSpinner";
 
 function App() {
+  /***** BEGIN - Global Error Handling for http errors */
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const errorHandler = () => {
+    setError(null);
+  };
+
+  axios.interceptors.request.use((config) => {
+    setIsLoading(true);
+    return config;
+  }, undefined);
+
+  axios.interceptors.response.use(
+    (response) => {
+      setIsLoading(false);
+      return response;
+    },
+    (error) => {
+      console.log(error);
+      setError({
+        title: error.code,
+        message: error.message,
+      });
+      setIsLoading(false);
+      return Promise.reject({ ...error });
+    }
+  );
+  /***** END - Global Error Handling for http errors */
+
   return (
     <Layout>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
+      {isLoading && <LoadingSpinner />}
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Navigate to="/list-employees" />} />
+          <Route path="/" element={<Navigate to="/employees/list" />} />
           <Route
-            path="/list-employees"
+            path="/employees/list"
             element={
               <ListEmployees onClick={<Navigate to="/add-employee" />} />
             }
           />
-          <Route path="/add-employee" element={<AddEmployee />} />
+          <Route path="/employees/add" element={<AddEmployee />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
     </Layout>
   );
 }
