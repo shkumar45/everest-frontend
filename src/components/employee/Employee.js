@@ -1,5 +1,5 @@
 import classes from "./Employee.module.css";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import EmployeeService from "../../services/EmployeeService";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,11 @@ import * as ValidationService from "../../services/ValidationService";
 
 const Employee = () => {
   const navigate = useNavigate();
-
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
-  const emailRef = useRef();
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
 
   const [formInputsValidity, setFormInputsValidity] = useState({
     firstName: true,
@@ -22,14 +23,14 @@ const Employee = () => {
     event.preventDefault();
 
     const enteredFirstNameIsValid = !ValidationService.isEmpty(
-      firstNameRef.current.value
+      employee.firstName
     );
     const enteredLastNameIsValid = !ValidationService.isEmpty(
-      lastNameRef.current.value
+      employee.lastName
     );
     const enteredEmailIsValid =
-      !ValidationService.isEmpty(emailRef.current.value) &&
-      ValidationService.isValidEmail(emailRef.current.value);
+      !ValidationService.isEmpty(employee.email) &&
+      ValidationService.isValidEmail(employee.email);
 
     setFormInputsValidity({
       firstName: enteredFirstNameIsValid,
@@ -40,15 +41,27 @@ const Employee = () => {
     const formIsValid =
       enteredFirstNameIsValid && enteredLastNameIsValid && enteredEmailIsValid;
     if (formIsValid) {
-      EmployeeService.addEmployee({
-        firstName: firstNameRef.current.value,
-        lastName: lastNameRef.current.value,
-        email: emailRef.current.value,
-      }).then((res) => {
+      EmployeeService.addEmployee(employee).then((res) => {
         navigate("/employees/list");
       });
     }
   }
+
+  const firstNameChangeHandler = (event) => {
+    setEmployee((prevState) => {
+      return { ...prevState, firstName: event.target.value };
+    });
+  };
+  const lastNameChangeHandler = (event) => {
+    setEmployee((prevState) => {
+      return { ...prevState, lastName: event.target.value };
+    });
+  };
+  const emailChangeHandler = (event) => {
+    setEmployee((prevState) => {
+      return { ...prevState, email: event.target.value };
+    });
+  };
 
   const lastNameControlClasses = `${classes.control} ${
     formInputsValidity.lastName ? "" : classes.invalid
@@ -67,21 +80,36 @@ const Employee = () => {
       <form className={classes.form} onSubmit={submitFormHandler}>
         <div className={firstNameControlClasses}>
           <label htmlFor="firstname">First Name</label>
-          <input type="text" id="firstname" ref={firstNameRef} />
+          <input
+            type="text"
+            id="firstname"
+            value={employee.firstName}
+            onChange={firstNameChangeHandler}
+          />
           {!formInputsValidity.firstName && (
             <p>Please enter a valid first name!</p>
           )}
         </div>
         <div className={lastNameControlClasses}>
           <label htmlFor="lastname">Last Name</label>
-          <input type="text" id="lastname" ref={lastNameRef} />
+          <input
+            type="text"
+            id="lastname"
+            value={employee.lastName}
+            onChange={lastNameChangeHandler}
+          />
           {!formInputsValidity.lastName && (
             <p>Please enter a valid last name!</p>
           )}
         </div>
         <div className={emailControlClasses}>
           <label htmlFor="email">Email</label>
-          <input type="text" id="email" ref={emailRef} />
+          <input
+            type="text"
+            id="email"
+            value={employee.email}
+            onChange={emailChangeHandler}
+          />
           {!formInputsValidity.email && (
             <p>Please enter a valid email address!</p>
           )}
