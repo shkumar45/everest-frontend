@@ -1,6 +1,6 @@
 import { Route, Navigate, Routes, BrowserRouter } from "react-router-dom";
 import ListEmployees from "./components/list-employees/ListEmployees";
-import AddEmployee from "./components/add-employee/Employee";
+import Employee from "./components/employee/Employee";
 import Layout from "./components/layout/Layout";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -54,13 +54,16 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/employees/list" />} />
-          <Route
-            path="/employees/list"
-            element={
-              <ListEmployees onClick={<Navigate to="/add-employee" />} />
-            }
-          />
-          <Route path="/employees/add" element={<AddEmployee />} />
+          {/* <Route path="/employees/list" element={<ListEmployees />} />
+          <Route path="/employees/add" element={<Employee />} />
+          <Route path="/employees/edit/:id" element={<Employee />} /> */}
+          <Route path="employees">
+            <Route path="list" element={<ListEmployees />} />
+            <Route path="add" element={<Employee />} />
+            <Route path="edit">
+              <Route path=":employeeId" element={<Employee />} />
+            </Route>
+          </Route>
         </Routes>
       </BrowserRouter>
       <Footer />

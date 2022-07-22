@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import EmployeeService from "../../services/EmployeeService";
 import classes from "./ListEmployees.module.css";
 import { useNavigate } from "react-router-dom";
+import { FcEmptyTrash } from "react-icons/fc";
+import { FcEditImage } from "react-icons/fc";
+// import { IconContext } from "react-icons";
 
 const ListEmployeeComponent = (props) => {
   const [employees, setEmployees] = useState([]);
@@ -13,8 +16,23 @@ const ListEmployeeComponent = (props) => {
     });
   }, []);
 
-  const addEmployeeHandler = (event) => {
+  const addEmployeeHandler = (event, param) => {
     navigate("/employees/add");
+  };
+
+  const editEmployeeHandler = (event, param) => {
+    event.preventDefault();
+    navigate("/employees/edit/param");
+  };
+
+  const deleteEmployeeHandler = (event, param) => {
+    event.preventDefault();
+    EmployeeService.deleteEmployee(param).then((res) => {
+      EmployeeService.getEmployees().then((res) => {
+        console.log(res.data);
+        setEmployees(res.data);
+      });
+    });
   };
 
   return (
@@ -40,13 +58,28 @@ const ListEmployeeComponent = (props) => {
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
                 <td>
-                  <a href="">
-                    <span class="material-symbols-outlined">edit</span>
-                  </a>
-                  &nbsp;
-                  <a href="">
-                    <span class="material-symbols-outlined">delete</span>
-                  </a>
+                  {/* <IconContext.Provider
+                    value={{ className: classes.icon, size: 30 }}
+                  >
+                    <>
+                      <FcEditImage />
+                      <FcEmptyTrash />
+                    </>
+                  </IconContext.Provider> */}
+                  <button
+                    className={classes.icon}
+                    onClick={(event) => editEmployeeHandler(event, employee.id)}
+                  >
+                    <FcEditImage size={20} />
+                  </button>
+                  <button
+                    className={classes.icon}
+                    onClick={(event) =>
+                      deleteEmployeeHandler(event, employee.id)
+                    }
+                  >
+                    <FcEmptyTrash size={20} />
+                  </button>
                 </td>
               </tr>
             ))}

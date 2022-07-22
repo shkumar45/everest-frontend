@@ -51,3 +51,10 @@ th {
 tr:nth-child(even) {
   background-color: rgb(196, 222, 196);
 }
+
+.icon {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  margin: 1px;
+}
