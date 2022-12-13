@@ -12,18 +12,18 @@ class EmployeeService {
   }
 
   getEmployeeById(employeeId) {
-    return axios.get(Constants.EMPLOYEE_API_BASE_URL + "/" + employeeId);
+    return axios.get(Constants.EMPLOYEE_API_BASE_URL + employeeId);
   }
 
   updateEmployee(employee, employeeId) {
     return axios.put(
-      Constants.EMPLOYEE_API_BASE_URL + "/" + employeeId,
+      Constants.EMPLOYEE_API_BASE_URL + employeeId,
       employee
     );
   }
 
   deleteEmployee(employeeId) {
-    return axios.delete(Constants.EMPLOYEE_API_BASE_URL + "/" + employeeId);
+    return axios.delete(Constants.EMPLOYEE_API_BASE_URL + employeeId);
   }
 }
 

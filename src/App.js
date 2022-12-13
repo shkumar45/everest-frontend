@@ -8,7 +8,7 @@ import axios from "axios";
 import ErrorModal from "./components/UI/ErrorModal";
 import { useState } from "react";
 import LoadingSpinner from "./components/UI/LoadingSpinner";
-
+import React from "react";
 function App() {
   /***** BEGIN - Global Error Handling for http errors */
   const [error, setError] = useState();

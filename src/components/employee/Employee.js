@@ -1,6 +1,6 @@
 import classes from "./Employee.module.css";
 import { useState } from "react";
-
+import React from "react";
 import EmployeeService from "../../services/EmployeeService";
 import { useNavigate } from "react-router-dom";
 import * as ValidationService from "../../services/ValidationService";
@@ -11,12 +11,14 @@ const Employee = () => {
     firstName: "",
     lastName: "",
     email: "",
+    departmentId:0
   });
 
   const [formInputsValidity, setFormInputsValidity] = useState({
     firstName: true,
     lastName: true,
     email: true,
+    departmentId: true
   });
 
   function submitFormHandler(event) {
